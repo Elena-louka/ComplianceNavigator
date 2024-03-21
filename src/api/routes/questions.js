@@ -3,15 +3,34 @@ const { getAllQuestions, getQuestionById, createQuestion, updateQuestion, delete
 
 const router = express.Router();
 
-router.get('/test-airtable', async (req, res) => {
-    try {
-        const records = await getAllQuestions();
-        res.json(records);
-    } catch (error) {
-        console.error('Error fetching from Airtable:', error);
-        res.status(500).json({ error: 'Failed to fetch data from Airtable' });
-    }
+// Get all questions
+router.get('/', async (req, res) => {
+    const questions = await getAllQuestions();
+    res.json(questions);
 });
 
+// Get a single question by id
+router.get('/:id', async (req, res) => {
+    const question = await getQuestionById(req.params.id);
+    res.json(question);
+});
+
+// Create a new question
+router.post('/', async (req, res) => {
+    const newQuestion = await createQuestion(req.body);
+    res.status(201).json(newQuestion);
+});
+
+// Update a question
+router.put('/:id', async (req, res) => {
+    const updatedQuestion = await updateQuestion(req.params.id, req.body);
+    res.json(updatedQuestion);
+});
+
+// Delete a question
+router.delete('/:id', async (req, res) => {
+    await deleteQuestion(req.params.id);
+    res.status(204).end();
+});
 
 module.exports = router;
