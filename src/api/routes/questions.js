@@ -5,9 +5,11 @@ const router = express.Router();
 
 // Get all questions
 router.get('/', async (req, res) => {
+    console.log(req.headers);
     const questions = await getAllQuestions();
     res.json(questions);
 });
+
 
 router.get('/search', async (req, res) => {
     try {
