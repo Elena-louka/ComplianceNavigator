@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllQuestions, getQuestionById, createQuestion, updateQuestion, deleteQuestion } = require('../airtableClient');
+const { getAllQuestions, getQuestionById, createQuestion, updateQuestion, deleteQuestion, searchQuestions } = require('../airtableClient');
 
 const router = express.Router();
 
@@ -7,6 +7,16 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const questions = await getAllQuestions();
     res.json(questions);
+});
+
+router.get('/search', async (req, res) => {
+    try {
+        const searchQuery = req.query.q;
+        const results = await searchQuestions(searchQuery);
+        res.json(results);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
 // Get a single question by id
