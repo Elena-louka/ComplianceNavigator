@@ -19,7 +19,7 @@ async function getAllQuestions() {
 
 // Fuzzy Search
 async function searchQuestions(searchQuery) {
-    const sanitizedQuery = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Sanitize the search string
+    const sanitizedQuery = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(sanitizedQuery, 'i'); // 'i' for case-insensitive search
     const records = await table.select().all();
     return records
