@@ -21,7 +21,7 @@ router.get('/search', async (req, res) => {
     }
 });
 
-// Get a single question by id
+// Get a single question by Id
 router.get('/:id', async (req, res) => {
     const question = await getQuestionById(req.params.id);
     res.json(question);
@@ -40,8 +40,13 @@ router.post('/', async (req, res) => {
 
 // Update a question
 router.put('/:id', async (req, res) => {
-    const updatedQuestion = await updateQuestion(req.params.id, req.body);
-    res.json(updatedQuestion);
+    try {
+        const updatedQuestion = await updateQuestion(req.params.id, req.body);
+        res.json(updatedQuestion);
+    } catch (error) {
+        console.error('Error updating question:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 // Delete a question

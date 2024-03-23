@@ -45,9 +45,14 @@ async function createQuestion(fields) {
 }
 
 // Update a question
-async function updateQuestion(id, fields) {
-    const updatedRecord = await table.update(id, fields);
-    return { id: updatedRecord.id, ...updatedRecord.fields };
+async function updateQuestion(recordId, fields) {
+    try {
+        const updatedRecord = await table.update(recordId, fields);
+        return { id: updatedRecord.id, ...updatedRecord.fields };
+    } catch (error) {
+        console.error('Error updating question:', error);
+        throw error;
+    }
 }
 
 // Delete a question
