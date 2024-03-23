@@ -33,10 +33,15 @@ async function getQuestionById(id) {
     return { id: record.id, ...record.fields };
 }
 
-// Add a new question
+// Create a question 
 async function createQuestion(fields) {
-    const createdRecord = await table.create(fields);
-    return { id: createdRecord.id, ...createdRecord.fields };
+    try {
+        const createdRecord = await table.create(fields); 
+        return { id: createdRecord.id, ...createdRecord.fields };
+    } catch (error) {
+        console.error('Error creating new question:', error);
+        throw error;
+    }
 }
 
 // Update a question

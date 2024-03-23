@@ -29,8 +29,13 @@ router.get('/:id', async (req, res) => {
 
 // Create a new question
 router.post('/', async (req, res) => {
-    const newQuestion = await createQuestion(req.body);
-    res.status(201).json(newQuestion);
+    try {
+        const newQuestion = await createQuestion(req.body);
+        res.status(201).json(newQuestion);
+    } catch (error) {
+        console.error('Error creating new question:', error);
+        res.status(500).json({ error: 'Internal server error' }); 
+    }
 });
 
 // Update a question
